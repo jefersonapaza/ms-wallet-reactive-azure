@@ -5,11 +5,12 @@ import io.smallrye.mutiny.Uni;
 import nttdata.bootcamp.quarkus.dto.request.WalletSaveDTO;
 import nttdata.bootcamp.quarkus.dto.response.WalletSaveResponseDTO;
 import nttdata.bootcamp.quarkus.entity.Wallet;
+import nttdata.bootcamp.quarkus.entity.api.Client;
 
 public interface WalletService {
 
-    public Uni<WalletSaveResponseDTO> save(WalletSaveDTO walletSaveDTO);
-    public Multi<Wallet> list();
+    public Uni<WalletSaveResponseDTO> saveWallet(WalletSaveDTO walletSaveDTO, Client client);
+    public Multi<Wallet> getAll();
 
     public Uni<Void> update(String id , Wallet wallet);
 

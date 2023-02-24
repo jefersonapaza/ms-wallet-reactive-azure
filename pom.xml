@@ -30,6 +30,10 @@
   <dependencies>
     <dependency>
       <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-redis-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
       <artifactId>quarkus-mongodb-panache</artifactId>
     </dependency>
     <dependency>
@@ -64,6 +68,11 @@
       <artifactId>lombok</artifactId>
       <version>1.18.20</version>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.azure</groupId>
+      <artifactId>azure-cosmos</artifactId>
+      <version>4.7.0</version>
     </dependency>
   </dependencies>
   <build>
