@@ -8,7 +8,13 @@ import nttdata.bootcamp.quarkus.dto.request.WalletSaveDTO;
 import nttdata.bootcamp.quarkus.dto.response.WalletSaveResponseDTO;
 import nttdata.bootcamp.quarkus.entity.Wallet;
 import nttdata.bootcamp.quarkus.entity.api.Client;
+import nttdata.bootcamp.quarkus.entity.redis.WalletRedis;
 import nttdata.bootcamp.quarkus.repository.WalletRepository;
+import nttdata.bootcamp.quarkus.repository.redis.WalletRedisRepository;
+
+import java.nio.charset.Charset;
+import java.util.Date;
+import java.util.Random;
 
 @ApplicationScoped
 public class WalletServiceImpl implements  WalletService{
@@ -16,6 +22,10 @@ public class WalletServiceImpl implements  WalletService{
 
     @Inject
     WalletRepository walletRepository;
+
+
+    @Inject
+    WalletRedisRepository walletRedisRepository;
 
 
 
@@ -29,9 +39,21 @@ public class WalletServiceImpl implements  WalletService{
         wallet.setIdDebitCard(walletSaveDTO.getDebitCardId());
         wallet.setStatus("I");
         return walletRepository.persist(wallet).flatMap(wallet1 -> {
+
             WalletSaveResponseDTO walletSaveResponseDTO = new WalletSaveResponseDTO();
-            walletSaveResponseDTO.setIdWallet(wallet.get_id().toString());
-            return null;
+            walletSaveResponseDTO.setIdWallet(wallet1.get_id().toString());
+            String approvalCode = this.generateApprovalCode();
+            walletSaveResponseDTO.setApprovalCode(approvalCode);
+
+            /*Save Cache Redis*/
+            WalletRedis walletRedis = new WalletRedis();
+            walletRedis.setIdWallet(wallet1.get_id().toString());
+            walletRedis.setExpirationDate(new Date());
+            walletRedis.setApprovalCode(approvalCode);
+            walletRedisRepository.save(wallet1.get_id().toString(),walletRedis);
+            /*-----------------*/
+
+            return Uni.createFrom().item(walletSaveResponseDTO);
         });
     }
 
@@ -53,5 +75,13 @@ public class WalletServiceImpl implements  WalletService{
     @Override
     public Uni<Wallet> findById(String id) {
         return null;
+    }
+
+
+    private String generateApprovalCode(){
+        byte[] array = new byte[8];
+        new Random().nextBytes(array);
+        String generatedString = new String(array, Charset.forName("UTF-8"));
+        return generatedString;
     }
 }
