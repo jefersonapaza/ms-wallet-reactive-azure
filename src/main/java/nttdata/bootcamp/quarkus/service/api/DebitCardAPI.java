@@ -10,7 +10,7 @@ import org.bson.types.ObjectId;
 @ApplicationScoped
 public class DebitCardAPI {
 
-    public Uni<DebitCard> findCreditCardById(String id){
+    public Uni<DebitCard> findDebitCardById(String id){
         return DebitCard.findById(new ObjectId(id));
     }
 }

@@ -18,14 +18,18 @@ import java.util.Date;
 @MongoEntity(collection="debitcard")
 public class DebitCard extends ReactivePanacheMongoEntity {
 
-    private ObjectId id;
+    public ObjectId id;
+
+
     public String cardnumber;
-    public Integer pin;
-    public Date expirationdate;
+  //  public Integer pin;
+  //  public Date expirationdate;
     public String validationcode;
+
+    public String dniClient;
 
     public String estadotarjeta;
 
-    public String dniClient;
+
 
 }

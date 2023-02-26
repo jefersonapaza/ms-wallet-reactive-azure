@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.bson.types.ObjectId;
 
 
 @Getter
@@ -15,6 +16,10 @@ import lombok.Setter;
 @MongoEntity(collection="client")
 public class Client extends ReactivePanacheMongoEntity {
 
+
+    public ObjectId id;
+
+    //public Object _id;
     public String personType;
     public String documentType;
     public String documentNumber;

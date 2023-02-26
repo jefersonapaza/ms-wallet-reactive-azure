@@ -11,6 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WalletSaveResponseDTO {
+
+
     private String ApprovalCode;
     private String idWallet;
 }
